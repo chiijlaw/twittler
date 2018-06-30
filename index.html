@@ -8,57 +8,75 @@
   </head>
   <body>
     <h1 class = "text-primary text-center" >Twittler</h1>
-    <div class = "container"></div>
+    <div id = "well"></div>
     <button id = "refresh">Update</button>
     <script>
 
       $(document).ready(function(){
         var $body = $('body');
         $body.html();
-
+        //Creates Initial Tweets
         var index = streams.home.length - 1;
         while(index >= 0){
           var tweet = streams.home[index];
-          var $tweet = $('<div class = "tweet" >');
-          $tweet.text('@' + tweet.user + ': ' + tweet.message + " " + tweet.created_at);
-          $tweet.appendTo('.container');
+          $('<div class = "container" id ='+index.toString()+'></div>').appendTo('#well');
+          $('<a href='+tweet.user+'.html>'+'@'+tweet.user+'</a>').appendTo('#'+index.toString());
+          var $tweet = $('<li class = "tweet" ></li>');
+          $tweet.text(tweet.message + " " + tweet.created_at);
+          $tweet.appendTo('#'+index.toString());
           index -= 1;
         }
-        $(".tweet").css({
-          'color':'cornflowerblue',
-          'border-color':'rgb(216, 216, 216)',
-          'border': 'solid',
-          'padding': '0.5% 0px',
+        //Change looks of Tweets, containers, title
+        var tweetLooks = {
+          'color':'aliceblue',
           'font-size': 'larger',
+          'list-style': 'none',
+          'padding': '0px 2%'
+        };
+        var containerLooks = {
+          'border': 'solid rgba(0, 0, 128, 0.5)',
+          'border-radius': '15px 50px 50px',
+          'background-color': 'deepskyblue',
+          'padding': '0.5% 0px',
           'margin':'0.5% 0px'
+        };
+        $('.tweet').css(tweetLooks);
+        $('.container').css(containerLooks);
+        $('h1').css({
+          'color': 'aliceblue',
+          'margin': 'auto',
+          'text-align': 'center',
+          'padding': '2%',
+        });
+        $('body').css('background-color', 'dodgerblue');
+        //Change button looks. On click, the update button will show new tweets.
+        $("button#refresh").css({
+          'color' : 'dodgerblue',
+          'border-color': 'navy',
+          'background-color': 'aliceblue',
+          'border-radius': '50px',
+          'width': '30%',
+          'margin': '5px 10px',
+          'font-size': 'large',
         });
         var indexInitial = 11;
         var indexAdd = 0;
-        $("button#refresh").css({
-          'border-color': 'rgb(216, 216, 216)',
-          'background-color': 'rgb(48, 110, 242)'
-        });
         $('button#refresh').on('click', function () {
           var index = streams.home.length - 1;
           indexInitial = indexInitial + indexAdd;
           while(index >= indexInitial){
             var tweet = streams.home[index];
-            var $tweet = $('<div class = "tweet" >');
-            $tweet.text('@' + tweet.user + ': ' + tweet.message + " " + Date());
-            $tweet.appendTo('.container');
+            $('<div class = "container" id ='+index.toString()+'></div>').appendTo('#well');
+            $('<a href='+tweet.user+'.html>'+'@'+tweet.user+'</a>').appendTo('#'+index.toString());
+            var $tweet = $('<li class = "tweet" ></li>');
+            $tweet.text(tweet.message + " " + tweet.created_at);
+            $tweet.appendTo('#'+index.toString());
             index -= 1;
             indexAdd++;
           }
-          $(".tweet").css({
-          'color':'cornflowerblue',
-          'border-color':'rgb(216, 216, 216)',
-          'border': 'solid',
-          'padding': '0.5% 0px',
-          'font-size': 'larger',
-          'margin':'0.5% 0px'
-          });
+          $(".tweet").css(tweetLooks);
+          $('.container').css(containerLooks);
         });
-
       });
 
     </script>
