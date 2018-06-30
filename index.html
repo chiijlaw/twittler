@@ -7,7 +7,9 @@
     <title>Twittler</title>
   </head>
   <body>
-    <h1 class="text-primary text-center" >Twittler</h1>
+    <h1 class = "text-primary text-center" >Twittler</h1>
+    <div class = "container"></div>
+    <button id = "refresh">Update</button>
     <script>
 
       $(document).ready(function(){
@@ -17,12 +19,45 @@
         var index = streams.home.length - 1;
         while(index >= 0){
           var tweet = streams.home[index];
-          var $tweet = $('<div></div>');
-          $tweet.text('@' + tweet.user + ': ' + tweet.message + " " + Date());
-          $tweet.appendTo($body);
+          var $tweet = $('<div class = "tweet" >');
+          $tweet.text('@' + tweet.user + ': ' + tweet.message + " " + tweet.created_at);
+          $tweet.appendTo('.container');
           index -= 1;
         }
-        $("div").addClass("tweet").css("color", "cornflowerblue");
+        $(".tweet").css({
+          'color':'cornflowerblue',
+          'border-color':'rgb(216, 216, 216)',
+          'border': 'solid',
+          'padding': '0.5% 0px',
+          'font-size': 'larger',
+          'margin':'0.5% 0px'
+        });
+        var indexInitial = 11;
+        var indexAdd = 0;
+        $("button#refresh").css({
+          'border-color': 'rgb(216, 216, 216)',
+          'background-color': 'rgb(48, 110, 242)'
+        });
+        $('button#refresh').on('click', function () {
+          var index = streams.home.length - 1;
+          indexInitial = indexInitial + indexAdd;
+          while(index >= indexInitial){
+            var tweet = streams.home[index];
+            var $tweet = $('<div class = "tweet" >');
+            $tweet.text('@' + tweet.user + ': ' + tweet.message + " " + Date());
+            $tweet.appendTo('.container');
+            index -= 1;
+            indexAdd++;
+          }
+          $(".tweet").css({
+          'color':'cornflowerblue',
+          'border-color':'rgb(216, 216, 216)',
+          'border': 'solid',
+          'padding': '0.5% 0px',
+          'font-size': 'larger',
+          'margin':'0.5% 0px'
+          });
+        });
 
       });
 
