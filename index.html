@@ -6,6 +6,17 @@
     <script src="data_generator.js"></script>
     <title>Twittler</title>
   </head>
+  <style>
+a:link, a:visited {
+    color: aliceblue;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+}
+a:hover, a:active {
+    color: navy;
+}
+</style>
   <body>
     <h1 class = "text-primary text-center" >Twittler</h1>
     <div id = "well"></div>
@@ -21,7 +32,6 @@
           var tweet = streams.home[index];
           $('<div class = "container" id ='+index.toString()+'></div>').appendTo('#well');
           $('<a href='+tweet.user+'.html>'+'@'+tweet.user+'</a>').appendTo('#'+index.toString());
-          //$('<button class = "user '+tweet.user+'"'+tweet.user+'>@'+tweet.user+'</button>').appendTo('#'+index.toString());
           var $tweet = $('<li class = "tweet" ></li>');
           $tweet.text(tweet.message);
           $tweet.appendTo('#'+index.toString());
