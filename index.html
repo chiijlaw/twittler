@@ -22,22 +22,23 @@
           $('<div class = "container" id ='+index.toString()+'></div>').appendTo('#well');
           $('<a href='+tweet.user+'.html>'+'@'+tweet.user+'</a>').appendTo('#'+index.toString());
           var $tweet = $('<li class = "tweet" ></li>');
-          $tweet.text(tweet.message + " " + tweet.created_at);
+          $tweet.text(tweet.message);
           $tweet.appendTo('#'+index.toString());
+          $('<div class = "tweet time">'+tweet.created_at.toLocaleString()+'</div>').appendTo('#'+index.toString());
           index -= 1;
         }
         //Change looks of Tweets, containers, title
         var tweetLooks = {
           'color':'aliceblue',
-          'font-size': 'larger',
+          'font-size': 'x-large',
           'list-style': 'none',
           'padding': '0px 2%'
         };
         var containerLooks = {
           'border': 'solid rgba(0, 0, 128, 0.5)',
-          'border-radius': '15px 50px 50px',
+          'border-radius': '15px 50px 15px',
           'background-color': 'deepskyblue',
-          'padding': '0.5% 0px',
+          'padding': '0.5%',
           'margin':'0.5% 0px'
         };
         $('.tweet').css(tweetLooks);
@@ -49,6 +50,7 @@
           'padding': '2%',
         });
         $('body').css('background-color', 'dodgerblue');
+        $('.time').css('text-align', 'right').css('font-size', 'medium');
         //Change button looks. On click, the update button will show new tweets.
         $("button#refresh").css({
           'color' : 'dodgerblue',
@@ -64,18 +66,20 @@
         $('button#refresh').on('click', function () {
           var index = streams.home.length - 1;
           indexInitial = indexInitial + indexAdd;
-          while(index >= indexInitial){
+          while(index >= (indexInitial || 0)){
             var tweet = streams.home[index];
             $('<div class = "container" id ='+index.toString()+'></div>').appendTo('#well');
             $('<a href='+tweet.user+'.html>'+'@'+tweet.user+'</a>').appendTo('#'+index.toString());
             var $tweet = $('<li class = "tweet" ></li>');
-            $tweet.text(tweet.message + " " + tweet.created_at);
+            $tweet.text(tweet.message);
             $tweet.appendTo('#'+index.toString());
+            $('<div class = "tweet time">'+tweet.created_at.toLocaleString()+'</div>').appendTo('#'+index.toString());
             index -= 1;
             indexAdd++;
           }
           $(".tweet").css(tweetLooks);
           $('.container').css(containerLooks);
+          $('.time').css('text-align', 'right').css('font-size', 'medium');
         });
       });
 
