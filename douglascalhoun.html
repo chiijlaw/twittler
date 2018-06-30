@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <script src="jquery.js"></script>
+    <script src="data_generator.js"></script>
+    <title>Twittler</title>
+  </head>
+  <style>
+a:link, a:visited {
+    color: aliceblue;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+}
+a:hover, a:active {
+    color: navy;
+}
+</style>
+  <body>
+    <h1 class = "text-primary text-center" >Douglascalhoun Timeline</h1>
+    <div id = "well"></div>
+    <button class = "text-primary text-center" id = "refresh">Update</button>
+    <a class = "home" href="index.html">Home</a>
+    <script>
+
+      $(document).ready(function(){
+        var $body = $('body');
+        $body.html();
+        //Creates Initial Tweets
+        var index = streams.users.douglascalhoun.length - 1;
+        while(index >= 0){
+          var tweet = streams.users.douglascalhoun[index];
+          $('<div class = "container" id ='+index.toString()+'></div>').appendTo('#well');
+          $('<a href='+tweet.user+'.html>'+'@'+tweet.user+'</a>').appendTo('#'+index.toString());
+          var $tweet = $('<li class = "tweet" ></li>');
+          $tweet.text(tweet.message);
+          $tweet.appendTo('#'+index.toString());
+          $('<div class = "tweet time">'+tweet.created_at.toLocaleString()+'</div>').appendTo('#'+index.toString());
+          index -= 1;
+        }
+        //Change looks of Tweets, containers, title, time
+        var tweetLooks = {
+          'color':'aliceblue',
+          'font-size': 'x-large',
+          'list-style': 'none',
+          'padding': '0px 2%'
+        };
+        var containerLooks = {
+          'border': 'solid rgba(0, 0, 128, 0.5)',
+          'border-radius': '15px 50px 15px',
+          'background-color': 'deepskyblue',
+          'padding': '0.5%',
+          'margin':'0.5% 0px'
+        };
+        $('.tweet').css(tweetLooks);
+        $('.container').css(containerLooks);
+        $('h1').css({
+          'color': 'aliceblue',
+          'margin': 'auto',
+          'text-align': 'center',
+          'padding': '2%',
+        });
+        $('body').css('background-color', 'dodgerblue');
+        $('.time').css('text-align', 'right').css('font-size', 'medium');
+        $('a.home').css('margin', 'inherit');
+        //Change button looks.
+        $("button#refresh").css({
+          'color' : 'dodgerblue',
+          'border-color': 'navy',
+          'background-color': 'aliceblue',
+          'border-radius': '50px',
+          'width': '30%',
+          'margin': 'auto',
+          'font-size': 'large',
+          'display': 'block',
+        });
+        //On click, the update button will show new tweets.
+        var indexInitial = streams.users.douglascalhoun.length;
+        var indexAdd = 0;
+        $('button#refresh').on('click', function () {
+          var index = streams.users.douglascalhoun.length - 1;
+          while(index >= (indexInitial || 0)){
+            var tweet = streams.users.douglascalhoun[index];
+            $('<div class = "container" id ='+index.toString()+'></div>').appendTo('#well');
+            $('<a href='+tweet.user+'.html>'+'@'+tweet.user+'</a>').appendTo('#'+index.toString());
+            var $tweet = $('<li class = "tweet" ></li>');
+            $tweet.text(tweet.message);
+            $tweet.appendTo('#'+index.toString());
+            $('<div class = "tweet time">'+tweet.created_at.toLocaleString()+'</div>').appendTo('#'+index.toString());
+            index -= 1;
+            indexAdd++;
+          }
+          indexInitial = indexInitial + indexAdd;
+          indexAdd = 0;
+          //Re-applys the css onto the new items
+          $(".tweet").css(tweetLooks);
+          $('.container').css(containerLooks);
+          $('.time').css('text-align', 'right').css('font-size', 'medium');
+        });
+      });
+
+    </script>
+  </body>
+</html>
